@@ -14,6 +14,7 @@ class InputTab:
     output_box: gr.Textbox
     output_raw: gr.JSON
     submit_btn: gr.Button
+    hidden_btn: gr.Button
     input_example: gr.Examples
     
     def __init__(self, session: MySession):
@@ -63,15 +64,35 @@ class InputTab:
                     self.submit_btn = gr.Button("Submit", variant="primary")
 
                 with gr.Accordion("Output_Raw", open=False):
-                    self.output_raw = gr.JSON(elem_id="output_raw", show_label=False)
+                    self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
 
                 # self.input_example = gr.Examples([])
+                self.hidden_btn = gr.Button(visible=False, elem_id="hidden_btn")
 
             block.load(
                 fn=self.service.initial_render,
                 outputs=[
                     self.model_dd,
+                    self.rag_dd,
+                    self.ft_dd,
                     self.output_box
                 ],
                 show_progress=False
             ).then(fn=None, js=Path("./src/js/input_initial_render.js").read_text())
+
+            self.submit_btn.click(
+                fn=self.service.completion,
+                inputs=[
+                    self.model_dd,
+                    self.rag_dd,
+                    self.ft_dd,
+                    self.token_slider,
+                    self.input_box
+                ],
+                outputs=[
+                    self.output_box,
+                    self.output_raw,
+                    self.hidden_btn
+                ],
+                show_progress="minimal"
+            ).success(fn=None, js=Path("./src/js/after_submit_clicked.js").read_text())

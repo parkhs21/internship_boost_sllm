@@ -2,6 +2,9 @@ from .my_response import MyResponse
 from .my_exception import MyException
 import requests
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class MySession():
     """
@@ -13,8 +16,8 @@ class MySession():
     
     def __init__(self):
         self._session = requests.Session()
-        self._session.auth = (os.environ['username'], os.environ['password'])
-        self._endpoint = os.environ['endpoint']
+        self._session.auth = (os.environ.get('username'), os.environ.get('password'))
+        self._endpoint = os.environ.get('endpoint')
         
     def get(self, detail: str, params: dict = None) -> requests.models.Response:
         response = self._session.get(self._endpoint + detail, params=params)
@@ -49,8 +52,10 @@ class MySession():
         }
         return self.post("/model/load", body)
     
-    def post_gen_text(self, temp: int) -> MyResponse:
+    def post_gen_text(self, model: str, rag: str, ft: str, token: int, input: str) -> MyResponse:
         body = {
-            "temp": temp
+            "prompt": input,
+            "model": model,
+            "max_new_token": token
         }
         return self.post("/generate", body)
