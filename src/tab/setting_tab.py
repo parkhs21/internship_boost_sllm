@@ -1,7 +1,6 @@
 import gradio as gr
-from dataclasses import dataclass
 
-@dataclass
+
 class SettingTab:
     tab: gr.Tab
     gpu_usage_label: gr.Label
@@ -9,7 +8,7 @@ class SettingTab:
     model_load_dd: gr.Dropdown
     gpu_load_dd: gr.Dropdown
     refresh_btn: gr.Button
-    unload_btn: gr.Button
+    # unload_btn: gr.Button
     load_btn: gr.Button
     
     def __init__(self):
@@ -31,8 +30,6 @@ class SettingTab:
                 elem_id="model_load_state"
             )
             
-            self.refresh_btn = gr.Button("Refresh")
-            
             with gr.Row():
                 self.model_load_dd = gr.Dropdown(
                     # model_list,
@@ -50,5 +47,6 @@ class SettingTab:
                 )
                 
             with gr.Row():
-                self.unload_btn = gr.Button("Unload")
-                self.load_btn = gr.Button("Load", variant="primary")
+                # self.unload_btn = gr.Button("Unload")
+                self.refresh_btn = gr.Button("Refresh")
+                self.load_btn = gr.Button("Load", variant="primary") 

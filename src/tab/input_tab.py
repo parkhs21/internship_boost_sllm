@@ -1,7 +1,6 @@
 import gradio as gr
-from dataclasses import dataclass
 
-@dataclass
+
 class InputTab:
     tab: gr.Tab
     model_dd: gr.Dropdown
@@ -49,16 +48,16 @@ class InputTab:
                 interactive=True
                 )
             
-            with gr.Row():
-                self.input_box = gr.Text(label="Input", show_copy_button=True, lines=10)
-                
-            with gr.Accordion("Output_Raw", open=False):
-                self.output_raw = gr.JSON(elem_id="output_raw", show_label=False)
-                
-            self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=10)
+            # with gr.Row():
+            with gr.Column():
+                self.input_box = gr.Text(label="Input", show_copy_button=True, lines=8)
+                self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=8)
             
             with gr.Row():
-                gr.ClearButton([self.input_box, self.output_box, self.output_raw])
+                gr.ClearButton([self.input_box, self.output_box])
                 self.submit_btn = gr.Button("Submit", variant="primary")
+
+            with gr.Accordion("Output_Raw", open=False):
+                self.output_raw = gr.JSON(elem_id="output_raw", show_label=False)
 
             # self.input_example = gr.Examples([])
