@@ -1,6 +1,9 @@
+from ..network import MySession
+from ..service import InputService
 import gradio as gr
 
 class InputTab:
+    service: InputService
     tab: gr.Tab
     model_dd: gr.Dropdown
     rag_dd: gr.Dropdown
@@ -12,7 +15,8 @@ class InputTab:
     submit_btn: gr.Button
     input_example: gr.Examples
     
-    def __init__(self):
+    def __init__(self, session: MySession):
+        self.service = InputService(session)
         with gr.Tab("데모") as self.tab:
             gr.Markdown("- 옵션을 선택하고 질의할 수 있습니다.")
             gr.Markdown("- RAG 및 FineTuning 옵션은 추후 업데이트 예정입니다.")

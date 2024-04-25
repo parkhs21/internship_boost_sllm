@@ -1,6 +1,9 @@
+from ..network import MySession
+from ..service import SettingService
 import gradio as gr
 
 class SettingTab:
+    service: SettingService
     tab: gr.Tab
     gpu_usage_label: gr.Label
     model_loaded_hltext: gr.HighlightedText
@@ -10,7 +13,8 @@ class SettingTab:
     # unload_btn: gr.Button
     load_btn: gr.Button
     
-    def __init__(self):
+    def __init__(self, session: MySession):
+        self.service = SettingService(session)
         with gr.Tab("설정") as self.tab:
             gr.Markdown("- LLM 모델과 관련된 설정을 할 수 있습니다.")
             gr.Markdown("- 모델은 로드된 경우에만 사용 가능합니다.")
