@@ -1,4 +1,5 @@
 from .my_response import MyResponse
+from .my_exception import MyException
 import requests
 import os
 
@@ -17,36 +18,36 @@ class MySession():
         
     def get(self, detail: str, params: dict = None) -> requests.models.Response:
         response = self._session.get(self._endpoint + detail, params=params)
+        response = MyResponse(response)
+        if not response.isSuccess:
+            raise MyException(response.result)
         return response
     
     def post(self, detail: str, body: dict = None) -> requests.models.Response:
         response = self._session.post(self._endpoint + detail, json=body)
+        response = MyResponse(response)
+        if not response.isSuccess:
+            raise MyException(response.result)
         return response
 
     def get_model_cached(self) -> MyResponse:
-        response = self.get("/model/list")
-        return MyResponse(response)
+        return self.get("/model/list")
     
     def get_model_loaded(self) -> MyResponse:
-        response = self.get("/model/loaded-list")
-        return MyResponse(response)
+        return self.get("/model/loaded-list")
     
     def get_gpu_info(self) -> MyResponse:
-        response = self.get("/gpu-info")
-        return MyResponse(response)
+        return self.get("/gpu-info")
 
     def post_model_load(self, model: str, gpu: str) -> MyResponse:
         body = {
             "model": model,
             "gpu_index": gpu
         }
-        response = self.post("/model/load", body)
-        return MyResponse(response)
+        return self.post("/model/load", body)
     
     def post_gen_text(self, temp: int) -> MyResponse:
         body = {
             "temp": temp
         }
-        response = self.post("/generate", body)
-        print(response.content)
-        return MyResponse(response)
+        return self.post("/generate", body)
