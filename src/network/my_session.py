@@ -38,6 +38,9 @@ class MySession():
     
     def get_gpu_info(self) -> MyResponse:
         return self.get("/gpu-info")
+    
+    def get_model_infos(self) -> MyResponse:
+        return self.get("/model/loaded")
 
     def post_model_load(self, model: str, gpu: str) -> MyResponse:
         body = {

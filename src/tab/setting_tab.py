@@ -55,7 +55,16 @@ class SettingTab:
                 # self.unload_btn = gr.Button("Unload")
                 self.refresh_btn = gr.Button("Refresh")
                 self.load_btn = gr.Button("Load", variant="primary")
-                
+
+
+            self.refresh_btn.click(
+                fn=self.service.reload_info,
+                outputs=[
+                    self.gpu_usage_label,
+                    self.model_loaded_hltext
+                ]
+            )
+            
             self.load_btn.click(
                 fn=self.service.model_load,
                 inputs=[
