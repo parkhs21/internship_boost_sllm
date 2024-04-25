@@ -34,22 +34,6 @@ class MySession():
     def get_gpu_info(self) -> MyResponse:
         response = self.get("/gpu-info")
         return MyResponse(response)
-    
-    # def post_model_load(self, model_id: str, gpu_id: str) -> MyResponse:
-    #     body = {
-    #         "mode_id": model_id,
-    #         "gpu_id": gpu_id
-    #     }
-    #     response = self.post("/model/load", body)
-    #     return MyResponse(response)
-    
-    # def post_gen_text(self, model_id: str, input: str) -> MyResponse:
-    #     body = {
-    #         "mode_id": model_id,
-    #         "input": input
-    #     }
-    #     response = self.post("/generate", body)
-    #     return MyResponse(response)
 
     def post_model_load(self, temp: int) -> MyResponse:
         body = {

@@ -1,6 +1,5 @@
 import gradio as gr
 
-
 class InputTab:
     tab: gr.Tab
     model_dd: gr.Dropdown

@@ -1,6 +1,5 @@
 import gradio as gr
 
-
 class SettingTab:
     tab: gr.Tab
     gpu_usage_label: gr.Label
@@ -15,6 +14,8 @@ class SettingTab:
         with gr.Tab("설정") as self.tab:
             gr.Markdown("- LLM 모델과 관련된 설정을 할 수 있습니다.")
             gr.Markdown("- 모델은 로드된 경우에만 사용 가능합니다.")
+            gr.Markdown("- 30분 동안 사용되지 않은 모델은 자동으로 언로드 됩니다.")
+            gr.Markdown("- Model 명칭은 [Hugging Face]에서 추출하였습니다.")
             
             self.gpu_usage_label = gr.Label(
                 label="GPU 점유량",
