@@ -35,9 +35,10 @@ class MySession():
         response = self.get("/gpu-info")
         return MyResponse(response)
 
-    def post_model_load(self, temp: int) -> MyResponse:
+    def post_model_load(self, model: str, gpu: str) -> MyResponse:
         body = {
-            "temp": temp
+            "model": model,
+            "gpu_index": gpu
         }
         response = self.post("/model/load", body)
         return MyResponse(response)

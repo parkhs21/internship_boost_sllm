@@ -31,7 +31,7 @@ class SettingTab:
                 label="Model Load 현황",
                 combine_adjacent=True,
                 adjacent_separator='',
-                color_map={"GPU 0": "orange", "GPU 1": "orange", "GPU 2": "orange", "GPU 3": "orange"},
+                color_map={"GPU A6000": "orange", "GPU A5500": "orange", "GPU A5000": "orange", "GPU A4000": "orange"},
                 elem_id="model_load_state"
             )
             
@@ -54,4 +54,16 @@ class SettingTab:
             with gr.Row():
                 # self.unload_btn = gr.Button("Unload")
                 self.refresh_btn = gr.Button("Refresh")
-                self.load_btn = gr.Button("Load", variant="primary") 
+                self.load_btn = gr.Button("Load", variant="primary")
+                
+            self.load_btn.click(
+                fn=self.service.model_load,
+                inputs=[
+                    self.model_load_dd,
+                    self.gpu_load_dd
+                ],
+                outputs=[
+                    self.gpu_usage_label,
+                    self.model_loaded_hltext
+                ]
+            )
