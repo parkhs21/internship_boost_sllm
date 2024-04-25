@@ -1,6 +1,7 @@
 from ..network import MySession
 from ..service import SettingService
 import gradio as gr
+from pathlib import Path
 
 class SettingTab:
     service: SettingService
@@ -66,7 +67,7 @@ class SettingTab:
                     self.model_load_dd,
                     self.gpu_load_dd
                 ]
-            )
+            ).then(fn=None, js=Path("./src/js/setting_initial_render.js").read_text())
 
             self.refresh_btn.click(
                 fn=self.service.reload_info,
