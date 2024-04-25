@@ -10,7 +10,7 @@ class MainBlock:
 
     def __init__(self):
         self.session = MySession()
-        with gr.Blocks() as self.block:
+        with gr.Blocks(title="Boost LLM", js="()=>{document.getElementsByTagName('footer')[0].remove();}") as self.block:
             gr.Markdown("# Boost LLM")
             with gr.Row():
                 with gr.Column():
