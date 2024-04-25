@@ -1,12 +1,7 @@
-import gradio as gr
-from src.tab import InputTab, SettingTab
+from src.main_block import MainBlock
 
-with gr.Blocks() as demo:
-    with gr.Row():
-        with gr.Column():
-            st = SettingTab()
-        with gr.Column(scale=2):
-            it = InputTab()
-            
+main_block = MainBlock()
+demo = main_block.block
+
 if __name__=='__main__':
     demo.launch(server_name="0.0.0.0", server_port=7863)
