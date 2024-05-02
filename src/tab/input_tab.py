@@ -9,6 +9,9 @@ class InputTab:
     model_dd: gr.Dropdown
     rag_dd: gr.Dropdown
     ft_dd: gr.Dropdown
+    sample_check: gr.Checkbox
+    temperature_slider: gr.Slider
+    topp_slider: gr.Slider
     token_slider: gr.Slider
     input_box: gr.Textbox
     output_box: gr.Textbox
@@ -24,35 +27,42 @@ class InputTab:
                 gr.Markdown("- 옵션을 선택하고 질의할 수 있습니다.")
                 gr.Markdown("- RAG 및 FineTuning 옵션은 추후 업데이트 예정입니다.")
                 gr.Markdown("- Max New Token 옵션은 토큰 수가 많아질 수록 많은 양을 생성합니다. 다만, 그에 따라 응답 시간이 증가합니다.")
+                gr.Markdown("- do Sample 체크 시, Temperature(높을수록 다채롭지만 부정확한 답변 출력), Top_p(높을수록 일반적인 단어 사용) 옵션이 반영됩니다.")
                 
                 with gr.Row():
-                    self.model_dd = gr.Dropdown(
-                        # model_list,
-                        label="Model",
-                        # value=model_list[0],
-                        interactive=True
+                    self.model_dd = gr.Dropdown(label="Model", interactive=True)
+                    self.rag_dd = gr.Dropdown(label="RAG", interactive=True)
+                    self.ft_dd = gr.Dropdown(label="FineTuning", interactive=True)
+                
+                with gr.Row():
+                    self.sample_check = gr.Checkbox(label="do Sample", interactive=True, elem_id='sample_check')
+                    self.temperature_slider = gr.Slider(
+                        minimum=0,
+                        maximum=1,
+                        value=1,
+                        step=0.05,
+                        label="Temperature",
+                        interactive=False,
+                        scale=2
                         )
-                    
-                    self.rag_dd = gr.Dropdown(
-                        label="RAG",
-                        # value=rag_list[0],
-                        interactive=True
+                    self.topp_slider = gr.Slider(
+                        minimum=0,
+                        maximum=1,
+                        value=1,
+                        step=0.05,
+                        label="Top_p",
+                        interactive=False,
+                        scale=2
                         )
-                    
-                    self.ft_dd = gr.Dropdown(
-                        label="FineTuning",
-                        # value=fine_tuning_list[0],
-                        interactive=True
+                    self.token_slider = gr.Slider(
+                        minimum=96,
+                        maximum=1024,
+                        value=512,
+                        step=16,
+                        label="Max New Token",
+                        interactive=True,
+                        scale=3
                         )
-                    
-                self.token_slider = gr.Slider(
-                    minimum=96,
-                    maximum=1024,
-                    value=512,
-                    step=16,
-                    label="Max New Token",
-                    interactive=True
-                    )
                 
                 # with gr.Row():
                 with gr.Column():
@@ -79,6 +89,19 @@ class InputTab:
                 ],
                 show_progress=False
             ).then(fn=None, js=Path("./src/js/input_initial_render.js").read_text())
+            
+            
+            self.sample_check.select(
+                fn=self.service.sample_check_toggle,
+                inputs=[
+                    self.sample_check
+                ],
+                outputs=[
+                    self.temperature_slider,
+                    self.topp_slider
+                ]
+            )
+            
 
             self.submit_btn.click(
                 fn=self.service.completion,

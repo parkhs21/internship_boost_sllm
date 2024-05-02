@@ -24,6 +24,12 @@ class InputService:
         except:
             raise gr.Error("네트워크 통신에 실패했습니다.")
         
+    def sample_check_toggle(self, isChecked: bool):
+        if isChecked:
+            return gr.update(interactive=True), gr.update(interactive=True)
+        else:
+            return gr.update(value=1, interactive=False), gr.update(value=1, interactive=False)
+        
     def completion(self, model: str, rag: str, ft: str, token: int, input: str):
         res = self.session.post_gen_text(model, rag, ft, token, input)
         output = res.result["output_text"]
