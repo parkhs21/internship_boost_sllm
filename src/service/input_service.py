@@ -1,5 +1,6 @@
 from ..network import MySession, MyResponse, MyException
 import gradio as gr
+import time
 
 class InputService:
     session: MySession
@@ -38,4 +39,11 @@ class InputService:
         res.result["output_text"] = "Output (답변텍스트) 참조"
         
         return output, res.result, gr.update(value=res.result["time"])
-        
+    
+    def completion_stream(self, model: str, rag: str, ft: str, sample: bool, temp: float, topp: float, token: int, input: str):
+        output = ""
+        response = self.session.post_gen_stream(model, rag, ft, sample, temp, topp, token, input)
+        for res in response:
+            output += res
+            yield output
+         

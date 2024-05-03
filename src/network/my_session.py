@@ -59,3 +59,17 @@ class MySession():
             "max_new_token": token
         }
         return self.post("/generate", body)
+    
+    def post_gen_stream(self, model: str, rag: str, ft: str, sample: bool, temp: float, topp: float, token: int, input: str):
+        body = {
+            "prompt": input,
+            "model": model,
+            "max_new_token": token,
+            "do_sample": sample,
+            "temperature": temp,
+            "top_p": topp
+        }
+        response = self._session.post(self._endpoint + "/generate/stream", json=body, stream=True)
+        for line in response.iter_lines():
+            decoded_line = line.decode('utf-8')
+            yield decoded_line[6:]

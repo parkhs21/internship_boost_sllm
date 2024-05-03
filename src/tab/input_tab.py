@@ -67,7 +67,7 @@ class InputTab:
                 # with gr.Row():
                 with gr.Column():
                     self.input_box = gr.Text(label="Input", show_copy_button=True, lines=8)
-                    self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=8, elem_id="output_box")
+                    self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=8, interactive=False, elem_id="output_box")
                 
                 with gr.Row():
                     gr.ClearButton([self.input_box, self.output_box])
@@ -103,19 +103,37 @@ class InputTab:
             )
             
 
+            # self.submit_btn.click(
+            #     fn=self.service.completion,
+            #     inputs=[
+            #         self.model_dd,
+            #         self.rag_dd,
+            #         self.ft_dd,
+            #         self.token_slider,
+            #         self.input_box
+            #     ],
+            #     outputs=[
+            #         self.output_box,
+            #         self.output_raw,
+            #         self.hidden_btn
+            #     ],
+            #     show_progress="minimal"
+            # ).success(fn=None, js=Path("./src/js/after_submit_clicked.js").read_text())
+            
             self.submit_btn.click(
-                fn=self.service.completion,
+                fn=self.service.completion_stream,
                 inputs=[
                     self.model_dd,
                     self.rag_dd,
                     self.ft_dd,
+                    self.sample_check,
+                    self.temperature_slider,
+                    self.topp_slider,
                     self.token_slider,
                     self.input_box
                 ],
                 outputs=[
-                    self.output_box,
-                    self.output_raw,
-                    self.hidden_btn
+                    self.output_box
                 ],
                 show_progress="minimal"
-            ).success(fn=None, js=Path("./src/js/after_submit_clicked.js").read_text())
+            )
