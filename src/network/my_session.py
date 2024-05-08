@@ -70,6 +70,6 @@ class MySession():
             "top_p": topp
         }
         response = self._session.post(self._endpoint + "/generate/stream", json=body, stream=True)
-        for line in response.iter_lines():
-            decoded_line = line.decode('utf-8')
-            yield decoded_line[6:]
+        for content in response.iter_content():
+            decoded_content = content.decode('utf-8')
+            yield decoded_content

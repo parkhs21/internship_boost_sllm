@@ -73,8 +73,8 @@ class InputTab:
                     gr.ClearButton([self.input_box, self.output_box])
                     self.submit_btn = gr.Button("Submit", variant="primary")
 
-                with gr.Accordion("Output_Raw", open=False):
-                    self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
+                # with gr.Accordion("Output_Raw", open=False):
+                #     self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
 
                 # self.input_example = gr.Examples([])
                 self.hidden_btn = gr.Button(visible=False, elem_id="hidden_btn")
