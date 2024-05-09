@@ -23,41 +23,43 @@ class SettingTab:
                 gr.Markdown("- 30분 동안 사용되지 않은 모델은 자동으로 언로드 됩니다.")
                 gr.Markdown("- Model 명칭은 [Hugging Face]에서 추출하였습니다.")
                 
-                self.gpu_usage_label = gr.Label(
-                    label="GPU 점유량",
-                    elem_id="gpu_graph"
-                )
-                
-                self.model_loaded_hltext = gr.HighlightedText(
-                    # [["Nothing loaded\n", None]],
-                    label="Model Load 현황",
-                    combine_adjacent=True,
-                    adjacent_separator='',
-                    color_map={"GPU A6000": "orange", "GPU A5500": "orange", "GPU A5000": "orange", "GPU A4000": "orange"},
-                    elem_id="model_load_state"
-                )
-                
                 with gr.Row():
-                    self.model_load_dd = gr.Dropdown(
-                        # model_list,
-                        label="Model",
-                        # value=model_list[0],
-                        interactive=True,
-                        scale=4
-                    )
+                    with gr.Column():
+                        self.gpu_usage_label = gr.Label(
+                            label="GPU 점유량",
+                            elem_id="gpu_graph"
+                        )
+                        
+                        self.model_loaded_hltext = gr.HighlightedText(
+                            # [["Nothing loaded\n", None]],
+                            label="Model Load 현황",
+                            combine_adjacent=True,
+                            adjacent_separator='',
+                            color_map={"GPU A6000": "orange", "GPU A5500": "orange", "GPU A5000": "orange", "GPU A4000": "orange"},
+                            elem_id="model_load_state"
+                        )
+                        
+                    with gr.Column():
+                        with gr.Row():
+                            self.model_load_dd = gr.Dropdown(
+                                # model_list,
+                                label="Model",
+                                # value=model_list[0],
+                                interactive=True,
+                                scale=4
+                            )
+                            
+                            self.gpu_load_dd = gr.Dropdown(
+                                # gpu_list,
+                                label="GPU",
+                                # value=gpu_list[1],
+                                interactive=True
+                            )
                     
-                    self.gpu_load_dd = gr.Dropdown(
-                        # gpu_list,
-                        label="GPU",
-                        # value=gpu_list[1],
-                        interactive=True
-                    )
-                    
-                with gr.Row():
-                    # self.unload_btn = gr.Button("Unload")
-                    self.refresh_btn = gr.Button("Refresh")
-                    self.load_btn = gr.Button("Load", variant="primary")
-
+                        self.refresh_btn = gr.Button("Refresh")
+                        with gr.Row():
+                            self.unload_btn = gr.Button("Unload")
+                            self.load_btn = gr.Button("Load", variant="primary")
 
             block.load(
                 fn=self.service.initial_render,

@@ -12,8 +12,5 @@ class MainBlock:
         self.session = MySession()
         with gr.Blocks(title="Boost LLM", js="()=>{document.getElementsByTagName('footer')[0].remove();}") as self.block:
             gr.Markdown("# Boost LLM")
-            with gr.Row():
-                with gr.Column():
-                    self.setting_tab = SettingTab(self.session)
-                with gr.Column(scale=2):
-                    self.input_tab = InputTab(self.session)
+            self.setting_tab = SettingTab(self.session)
+            self.input_tab = InputTab(self.session)

@@ -22,7 +22,7 @@ class InputTab:
     
     def __init__(self, session: MySession):
         self.service = InputService(session)
-        with gr.Tab("데모") as self.tab:
+        with gr.Tab("쳇봇") as self.tab:
             with gr.Blocks() as block:
                 gr.Markdown("- 옵션을 선택하고 질의할 수 있습니다.")
                 gr.Markdown("- RAG 및 FineTuning 옵션은 추후 업데이트 예정입니다.")
@@ -30,51 +30,54 @@ class InputTab:
                 gr.Markdown("- do Sample 체크 시, Temperature(높을수록 다채롭지만 부정확한 답변 출력), Top_p(높을수록 일반적인 단어 사용) 옵션이 반영됩니다.")
                 
                 with gr.Row():
-                    self.model_dd = gr.Dropdown(label="Model", interactive=True)
-                    self.rag_dd = gr.Dropdown(label="RAG", interactive=True)
-                    self.ft_dd = gr.Dropdown(label="FineTuning", interactive=True)
-                
-                with gr.Row():
-                    self.sample_check = gr.Checkbox(label="do Sample", interactive=True, elem_id='sample_check')
-                    self.temperature_slider = gr.Slider(
-                        minimum=0,
-                        maximum=1,
-                        value=1,
-                        step=0.05,
-                        label="Temperature",
-                        interactive=False,
-                        scale=2
-                        )
-                    self.topp_slider = gr.Slider(
-                        minimum=0,
-                        maximum=1,
-                        value=1,
-                        step=0.05,
-                        label="Top_p",
-                        interactive=False,
-                        scale=2
-                        )
-                    self.token_slider = gr.Slider(
-                        minimum=96,
-                        maximum=1024,
-                        value=512,
-                        step=16,
-                        label="Max New Token",
-                        interactive=True,
-                        scale=3
-                        )
-                
-                # with gr.Row():
-                with gr.Column():
-                    self.input_box = gr.Text(label="Input", show_copy_button=True, lines=8)
-                    self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=8, interactive=False, elem_id="output_box")
-                
-                with gr.Row():
-                    gr.ClearButton([self.input_box, self.output_box])
-                    self.submit_btn = gr.Button("Submit", variant="primary")
+                    with gr.Column():
+                        with gr.Row():
+                            self.model_dd = gr.Dropdown(label="Model", interactive=True)
+                            self.rag_dd = gr.Dropdown(label="RAG", interactive=True)
+                            self.ft_dd = gr.Dropdown(label="FineTuning", interactive=True)
+                        
+                        self.input_box = gr.Text(label="Input", show_copy_button=True, lines=8)
+                        
+                        with gr.Row():
+                            # gr.ClearButton([self.input_box, self.output_box])
+                            self.clear_btn = gr.Button("Clear")
+                            self.submit_btn = gr.Button("Submit", variant="primary")
+                            
+                    with gr.Column():
+                        with gr.Row():
+                            self.sample_check = gr.Checkbox(label="do Sample", interactive=True, elem_id='sample_check')
+                            self.temperature_slider = gr.Slider(
+                                minimum=0,
+                                maximum=1,
+                                value=1,
+                                step=0.05,
+                                label="Temperature",
+                                interactive=False,
+                                scale=2
+                                )
+                            self.topp_slider = gr.Slider(
+                                minimum=0,
+                                maximum=1,
+                                value=1,
+                                step=0.05,
+                                label="Top_p",
+                                interactive=False,
+                                scale=2
+                                )
+                            self.token_slider = gr.Slider(
+                                minimum=96,
+                                maximum=1024,
+                                value=512,
+                                step=16,
+                                label="Max New Token",
+                                interactive=True,
+                                scale=2
+                                )
+                            
+                        self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=8, interactive=False, elem_id="output_box")
 
-                # with gr.Accordion("Output_Raw", open=False):
-                #     self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
+                        with gr.Accordion("Output_Raw", open=False):
+                            self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
 
                 # self.input_example = gr.Examples([])
                 self.hidden_btn = gr.Button(visible=False, elem_id="hidden_btn")
