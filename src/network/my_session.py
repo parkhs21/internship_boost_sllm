@@ -44,6 +44,12 @@ class MySession():
     
     def get_model_infos(self) -> MyResponse:
         return self.get("/model/loaded")
+    
+    def post_model_unload(self, model: str) -> MyResponse:
+        body = {
+            "model": model
+        }
+        return self.post("/model/unload", body)
 
     def post_model_load(self, model: str, gpu: str) -> MyResponse:
         body = {

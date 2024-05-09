@@ -11,7 +11,7 @@ class SettingTab:
     model_load_dd: gr.Dropdown
     gpu_load_dd: gr.Dropdown
     refresh_btn: gr.Button
-    # unload_btn: gr.Button
+    unload_btn: gr.Button
     load_btn: gr.Button
     
     def __init__(self, session: MySession):
@@ -25,13 +25,8 @@ class SettingTab:
                 
                 with gr.Row():
                     with gr.Column():
-                        self.gpu_usage_label = gr.Label(
-                            label="GPU 점유량",
-                            elem_id="gpu_graph"
-                        )
-                        
+                        self.gpu_usage_label = gr.Label(label="GPU 점유량", elem_id="gpu_graph")
                         self.model_loaded_hltext = gr.HighlightedText(
-                            # [["Nothing loaded\n", None]],
                             label="Model Load 현황",
                             combine_adjacent=True,
                             adjacent_separator='',
@@ -41,24 +36,16 @@ class SettingTab:
                         
                     with gr.Column():
                         with gr.Row():
-                            self.model_load_dd = gr.Dropdown(
-                                # model_list,
-                                label="Model",
-                                # value=model_list[0],
-                                interactive=True,
-                                scale=4
-                            )
-                            
-                            self.gpu_load_dd = gr.Dropdown(
-                                # gpu_list,
-                                label="GPU",
-                                # value=gpu_list[1],
-                                interactive=True
-                            )
+                            self.model_load_dd = gr.Dropdown(label="Model", interactive=True, scale=3)
+                            self.gpu_load_dd = gr.Dropdown(label="GPU", interactive=True)
                     
-                        self.refresh_btn = gr.Button("Refresh")
+                        # self.refresh_btn = gr.Button("Refresh")
+                        # with gr.Row():
+                        #     self.unload_btn = gr.Button("Unload")
+                        #     self.load_btn = gr.Button("Load", variant="primary")
                         with gr.Row():
-                            self.unload_btn = gr.Button("Unload")
+                            self.refresh_btn = gr.Button("Refresh")
+                            self.unload_btn = gr.Button("Unload", visible=False)
                             self.load_btn = gr.Button("Load", variant="primary")
 
             block.load(
@@ -73,6 +60,18 @@ class SettingTab:
 
             self.refresh_btn.click(
                 fn=self.service.reload_info,
+                outputs=[
+                    self.gpu_usage_label,
+                    self.model_loaded_hltext
+                ]
+            )
+            
+            self.unload_btn.click(
+                fn=self.service.model_load,
+                inputs=[
+                    self.model_load_dd,
+                    self.gpu_load_dd
+                ],
                 outputs=[
                     self.gpu_usage_label,
                     self.model_loaded_hltext

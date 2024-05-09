@@ -31,6 +31,9 @@ class InputService:
         else:
             return gr.update(value=1, interactive=False), gr.update(value=1, interactive=False)
         
+    def clear_text(self):
+        return gr.update(value=None), gr.update(value=None), gr.update(value=None)
+        
     def completion(self, model: str, rag: str, ft: str, token: int, input: str):
         res = self.session.post_gen_text(model, rag, ft, token, input)
         output = res.result["output_text"]
