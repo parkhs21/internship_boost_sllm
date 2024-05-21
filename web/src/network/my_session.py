@@ -16,7 +16,7 @@ class MySession():
     
     def __init__(self):
         self._session = requests.Session()
-        self._session.auth = (os.environ.get('username'), os.environ.get('password'))
+        self._session.auth = ('username', 'password123!@#')
         self._endpoint = os.environ.get('endpoint')
         
     def get(self, detail: str, params: dict = None) -> requests.models.Response:
@@ -70,6 +70,7 @@ class MySession():
         body = {
             "prompt": input,
             "model": model,
+            "rag": rag,
             "max_new_token": token,
             "do_sample": sample,
             "temperature": temp,

@@ -11,7 +11,7 @@ class InputService:
     def initial_render(self):
         try:
             model_res: MyResponse = self.session.get_model_cached()
-            rag_res = ["Not Ready"]
+            rag_res = ["Not Ready", "대한민국 민법"]
             ft_res = ["Not Ready"]
             
             return [
@@ -45,6 +45,8 @@ class InputService:
     
     def completion_stream(self, model: str, rag: str, ft: str, sample: bool, temp: float, topp: float, token: int, input: str):
         output = ""
+        if rag=="Not Ready":
+            rag = None
         response = self.session.post_gen_stream(model, rag, ft, sample, temp, topp, token, input)
         for res in response:
             output += res
