@@ -11,7 +11,7 @@ from threading import Timer
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 import os
-os.environ["TOKENIZERS_PARALLELISM"] = "true"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 app = Flask(__name__)
 setproctitle('boost_llm:5009')

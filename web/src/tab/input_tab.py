@@ -75,8 +75,8 @@ class InputTab:
                             
                         self.output_box = gr.Text(label="Ouptut", show_copy_button=True, lines=8, interactive=False, elem_id="output_box")
 
-                        with gr.Accordion("Output_Raw", open=False):
-                            self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
+                        # with gr.Accordion("Output_Raw", open=False):
+                        #     self.output_raw = gr.JSON(show_label=False, elem_id="output_raw")
 
                 # self.input_example = gr.Examples([])
                 # self.hidden_btn = gr.Button(visible=False, elem_id="hidden_btn")
@@ -106,8 +106,7 @@ class InputTab:
                 fn=self.service.clear_text,
                 outputs=[
                     self.input_box,
-                    self.output_box,
-                    self.output_raw
+                    self.output_box
                 ]
             )
             
