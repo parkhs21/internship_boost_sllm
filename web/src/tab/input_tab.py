@@ -44,7 +44,7 @@ class InputTab:
                             
                     with gr.Column():
                         with gr.Row():
-                            self.sample_check = gr.Checkbox(label="do Sample", interactive=True, elem_id='sample_check')
+                            self.sample_check = gr.Checkbox(label="설정 변경", interactive=True, elem_id='sample_check')
                             self.temperature_slider = gr.Slider(
                                 minimum=0,
                                 maximum=1,
@@ -65,7 +65,7 @@ class InputTab:
                                 )
                             self.token_slider = gr.Slider(
                                 minimum=96,
-                                maximum=1024,
+                                maximum=4096,
                                 value=512,
                                 step=16,
                                 label="Max New Token",
@@ -106,7 +106,8 @@ class InputTab:
                 fn=self.service.clear_text,
                 outputs=[
                     self.input_box,
-                    self.output_box
+                    self.output_box,
+                    # self.output_raw
                 ]
             )
             
