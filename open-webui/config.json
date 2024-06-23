@@ -1,0 +1,34 @@
+{
+	"ollama": {
+		"base_urls": [
+			"http://192.168.115.38:11510"
+		],
+		"enable": true
+	},
+	"openai": {
+		"api_base_urls": [
+			"https://api.openai.com/v1"
+		],
+		"api_keys": [
+			""
+		]
+	},
+	"webhook_url": "",
+	"auth": {
+		"admin": {
+			"show": true
+		},
+		"jwt_expiry": "1d"
+	},
+	"ui": {
+		"enable_signup": true,
+		"default_user_role": "pending",
+		"enable_community_sharing": true
+	},
+	"rag": {
+		"template": "Use the following context as your learned knowledge, inside <context></context> XML tags.\n<context>\n    [context]\n</context>\n\nWhen answer to user:\n- If you don't know, just say that you don't know.\n- If you don't know when you are not sure, ask for clarification.\nAvoid mentioning that you obtained the information from the context.\nAnd answer according to the language of the user's question.\n\nGiven the context information, answer the query.\nQuery: [query]",
+		"top_k": 5,
+		"relevance_threshold": 0.0,
+		"enable_hybrid_search": false
+	}
+}
